@@ -6,7 +6,7 @@ A machine learning pipeline for predicting spontaneous abortion (SA) risk from p
 
 ## Overview
 
-This repository implements a complete ML workflow applied to a large-scale preconception cohort (N ≈ 402,226 records, 137 variables). The pipeline covers data imputation, temporal validation splitting, Boruta feature selection, baseline model benchmarking, bootstrap ensemble training, and TreeSHAP interpretability analysis.
+This repository implements a complete ML workflow applied to a large-scale preconception cohort (N ≈ 402,226 records, 134 variables). The pipeline covers data imputation, temporal validation splitting, Boruta feature selection, baseline model benchmarking, bootstrap ensemble training, and TreeSHAP interpretability analysis.
 
 **Outcome variable:** Binary classification — Spontaneous Abortion (SpontAbortion)
 
@@ -184,7 +184,7 @@ jupyter notebook 07_shap_analysis.ipynb
 ## Key Results
 
 - **Ensemble size:** 300 XGBoost models
-- **Feature count:** ~61 confirmed features (post-Boruta from 137 original variables)
+- **Feature count:** ~36 confirmed features (post-Boruta from 134 original variables)
 - **Confidence intervals:** Bootstrap 95% CI with 1,000 iterations
 - **Evaluation datasets:** Training, Internal Validation (stratified holdout), Temporal Validation (2019)
 
