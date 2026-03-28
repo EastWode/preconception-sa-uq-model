@@ -82,7 +82,7 @@ Evaluation: AUC-ROC, AUC-PR (bootstrap 95% CI, N=100), calibration curves, Brier
 - **300 XGBoost models**, each trained on a balanced bootstrap sample (1:1 class resampling)
 - Per-model **Optuna** hyperparameter optimization (TPESampler, 50 trials/model)
 - GPU (CUDA) acceleration support via automatic device detection
-- Models serialized to `./bootstrap_models/model_*.pkl`
+- Models serialized to `./bootstrap_models/model_bs_*.pkl` (included in this repository)
 
 ### 6. Model Evaluation (`06`)
 - Ensemble predictions via mean/median/voting/weighted aggregation
@@ -136,9 +136,9 @@ pip install pandas numpy scikit-learn xgboost lightgbm optuna shap boruta \
 │   ├── data_internal_validation_selected.csv
 │   └── data_temporal_validation_selected.csv
 ├── bootstrap_models/
-│   ├── model_0.pkl
-│   ├── model_1.pkl
-│   └── ...  (300 models)
+│   ├── model_bs_0.pkl
+│   ├── model_bs_1.pkl
+│   └── ...  (300 models, ~1.8 GB total, ~7.3 MB each)
 ├── figures/                                   # Publication-quality outputs (300 DPI TIFF)
 ├── outputs_fi/                                # SHAP outputs and feature importance CSVs
 ├── 01_data_preprocessing.ipynb
@@ -154,19 +154,30 @@ pip install pandas numpy scikit-learn xgboost lightgbm optuna shap boruta \
 
 ## Usage
 
-Run notebooks sequentially:
+### Option A: Use pre-trained models (recommended)
+
+The 300 pre-trained ensemble models are included in `bootstrap_models/`. Skip directly to evaluation and interpretability:
+
+```bash
+jupyter notebook 06_model_results.ipynb
+jupyter notebook 07_shap_analysis.ipynb
+```
+
+### Option B: Full pipeline from scratch
+
+Run notebooks sequentially (requires the raw dataset under `./Data/`):
 
 ```bash
 jupyter notebook 01_data_preprocessing.ipynb
 jupyter notebook 02_data_splitting.ipynb
 jupyter notebook 03_feature_selection.ipynb
 jupyter notebook 04_model_training.ipynb
-jupyter notebook 05_bootstrap_ensemble.ipynb   # Computationally intensive (~94 MB output)
+jupyter notebook 05_bootstrap_ensemble.ipynb   # Computationally intensive
 jupyter notebook 06_model_results.ipynb
 jupyter notebook 07_shap_analysis.ipynb
 ```
 
-> **Note:** `05_bootstrap_ensemble.ipynb` is computationally intensive. GPU acceleration is automatically used if CUDA is available. Training 300 models with 50 Optuna trials each may take several hours on CPU.
+> **Note:** `05_bootstrap_ensemble.ipynb` trains 300 XGBoost models with 50 Optuna trials each. GPU (CUDA) acceleration is detected automatically. This step may take several hours on CPU.
 
 ---
 
